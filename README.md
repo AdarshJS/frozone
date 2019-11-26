@@ -12,9 +12,13 @@ Package to post process robot velocities to reduce the freezing robot problem.
 
 
 Run these commands:
-1. roslaunch jackal_gazebo jackal_world.launch
-2. rosrun frozone goal_pub
+```
+roslaunch jackal_gazebo jackal_world.launch
+rosrun frozone goal_pub
+```
 
 Inside mrca package:
-3. conda activate crowdmove
-4. python final.py
+``` 
+conda activate crowdmove
+python final.py
+```
