@@ -12,7 +12,7 @@ ros::init(argc, argv, "Goal_Pub");
 ros::NodeHandle nh;
 
 // ros::Subscriber sub = nh.subscribe("turtle1/cmd_vel",1000,&filterVelocityCallback);
-ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("/target/position", 1000);
+ros::Publisher pub = nh.advertise<geometry_msgs::Twist>("/jackal/target/position", 1000);
 
 ros::Rate rate(10);
 
