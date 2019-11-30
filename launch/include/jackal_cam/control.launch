@@ -1,0 +1,22 @@
+<launch>
+  <arg name="ns" default="jackal"/>
+  <rosparam command="load" file="$(find jackal_control)/config/control.yaml" ns="$(arg ns)"/>
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner"
+        args="jackal_joint_publisher jackal_velocity_controller" ns="$(arg ns)"/>
+
+  <node pkg="robot_localization" type="ekf_localization_node" name="ekf_localization" ns="$(arg ns)">
+    <rosparam command="load" file="$(find jackal_control)/config/robot_localization.yaml" />
+  </node>
+
+  <!--node pkg="twist_mux" type="twist_mux" name="twist_mux" ns="$(arg ns)">
+    <rosparam command="load" file="$(find jackal_control)/config/twist_mux.yaml" />
+    <remap from="cmd_vel_out" to="jackal_velocity_controller/cmd_vel"/>
+  </node-->
+
+  <node pkg="interactive_marker_twist_server" type="marker_server" name="twist_marker_server" ns="$(arg ns)">
+    <remap from="twist_marker_server/cmd_vel" to="jackal_velocity_controller/cmd_vel" />
+    <param name="link_name" value="$(arg ns)/base_link"/>
+  </node>
+
+</launch>
