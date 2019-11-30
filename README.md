@@ -7,6 +7,10 @@ Package to post process robot velocities to reduce the freezing robot problem.
 
 ## Dependencies:
 * jackal_gazebo
+* interactive_marker_twist_server
+* robot_localization
+* joint_state_controller
+* diff_drive_controller
 * CrowdMove mrca package and its dependencies
 * Conda
 
@@ -18,7 +22,7 @@ rosrun frozone goal_pub
 ```
 
 Inside mrca package:
-``` 
+```
 conda activate crowdmove
 python final.py
 ```
