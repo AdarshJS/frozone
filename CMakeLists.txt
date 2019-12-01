@@ -203,3 +203,8 @@ include_directories(
 add_executable(goal_pub src/goal_pub.cpp)
 target_link_libraries(goal_pub ${catkin_LIBRARIES})
 add_dependencies(goal_pub frozone_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+
+add_executable(relative_goal_pub src/relative_goal_pub.cpp)
+target_link_libraries(relative_goal_pub ${catkin_LIBRARIES})
+add_dependencies(relative_goal_pub frozone_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
+
