@@ -12,7 +12,7 @@ from nav_msgs.msg import Odometry
 
 # Hyper parameters
 MAX_LINEAR_VELOCITY = 0.5  #0.5
-MAX_ANGULAR_VELOCITY = 0.75 #1.0
+MAX_ANGULAR_VELOCITY = 1.0 #0.75 #1.0 (original)
 
 
 class MLSHAgent(object):
@@ -44,12 +44,14 @@ class MLSHAgent(object):
         scan = obs[0]
         goal = obs[1]
         if np.min(scan) > 0.4 or (np.min(scan) * 4. > goal[0]): # Distance to goal is less than 4 times the least scan data
-            action = self.subpolicies[1].act(obs) # Use PD controller
+            action = self.subpolicies[1].act(obs) # Use P controller
 
 
         else:
             action = self.subpolicies[0].act(obs) # Use PPO
             print("Using PPO")
+            # action = self.subpolicies[1].act(obs)
+            # print("Using P Controller")
 
         if action[0] < 0:
             action[0] = 0
@@ -166,6 +168,8 @@ class Environment(object):
         rospy.Subscriber('jackal/target/position', Twist, self.target_callback)
 
         self.command_pub = rospy.Publisher('/jackal/jackal_velocity_controller/cmd_vel', Twist, queue_size=1)
+        # self.command_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
+        # self.command_pub = rospy.Publisher('/turtlebot0/cmd_vel_mux/input/navi', Twist, queue_size=1)
 
         time.sleep(1)
 
@@ -227,6 +231,7 @@ class Environment(object):
 
     def scan_callback(self, data):
         scan = self.preprocess_scan(data.ranges)/2 # There was / 2 here
+        # scan = self.preprocess_scan(data.ranges)
         # print("max:{}/	min:{}".format(np.max(scan),np.min(scan)))
         self.scan = np.concatenate((self.scan[:, 1:], np.asarray([scan]).transpose()), axis=1)
 
